@@ -1,0 +1,58 @@
+# -*- coding:utf-8 -*-
+import logging
+import os
+import time
+
+class mylog(object):
+    def __init__(self, logger_name):
+        # 创建一个logger
+        self.logger = logging.getLogger(logger_name)
+        # 设置日志级别
+        self.logger.setLevel(logging.INFO)
+
+        # 设置日志存放路径，日志文件名
+        # 获取本地时间，转换为设置的格式
+        rq = time.strftime('%Y-%m-%d %H:%M', time.localtime(time.time()))
+        # 设置所有日志和错误日志的存放路径
+        all_log_path = os.path.join(os.path.dirname(os.getcwd()),'Logs/')
+        # 判断目录是否存在
+        if not os.path.exists(all_log_path):
+            os.makedirs(all_log_path)
+            file = open(all_log_path+'All_Logs.log','w')
+            file.close()
+
+        error_log_path = os.path.join(os.path.dirname(os.getcwd()),'Error/')
+        # 判断目录是否存在
+        if not os.path.exists(error_log_path):
+            os.makedirs(error_log_path)
+            file = open(error_log_path+'Error_Logs.log','w')
+            file.close()
+
+        # 创建handler
+        # 创建一个handler写入所有日志
+        ah = logging.FileHandler(all_log_path+'All_Logs.log', encoding='utf-8')
+        ah.setLevel(logging.INFO)
+        # 创建一个handler写入错误日志
+        eh = logging.FileHandler(error_log_path+'Error_Logs.log', encoding='utf-8')
+        eh.setLevel(logging.ERROR)
+        # 创建一个handler输出到控制台
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.INFO)
+
+        # 定义日志输出格式
+        # 以时间-日志器名称-日志级别-日志内容的形式展示
+        all_log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        # 以时间-日志器名称-日志级别-文件名-函数行号-错误内容
+        error_log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(module)s  - %(lineno)s - %(message)s')
+        # 将定义号的输出形式添加到handler
+        ah.setFormatter(all_log_formatter)
+        eh.setFormatter(error_log_formatter)
+        ch.setFormatter(all_log_formatter)
+
+        # 给logger添加handler
+        self.logger.addHandler(ah)
+        self.logger.addHandler(eh)
+        self.logger.addHandler(ch)
+
+    def getlog(self):
+        return self.logger
