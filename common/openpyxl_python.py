@@ -23,8 +23,8 @@ import time
 import os
 
 # # 创建文件对象
-# wb = Workbook()
-#
+wb = Workbook()
+
 # # 获取第一个sheet
 # ws = wb.active
 #
@@ -41,3 +41,24 @@ import os
 # 写入多个单元格
 
 # 创建sheet
+ws1 = wb.create_sheet("Mysheet")        # 创建一个sheet
+ws1.title = "New Title"                 # 设定一个sheet的名字
+ws2 = wb.create_sheet("Mysheet", 0)     # 设定sheet的插入位置，默认插在后面
+ws2.title = u"你好"                       # 设定一个sheet的名字，必须是Unicode
+
+# 获取全部sheet的名字，病例sheet名字
+print(wb.sheetnames)
+for sheet_name in wb.sheetnames:
+    print(sheet_name)
+
+print("*"*5)
+
+for sheet in wb:
+    print(sheet.title)
+
+# 复制一个sheet
+wb["New Title"]["A1"] = "zeke"
+source = wb["New Title"]
+target = wb.copy_worksheet(source)
+
+wb.save("e:\\sample.xlsx")
