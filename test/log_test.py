@@ -8,5 +8,5 @@ try:
     logger.info('result',r)
 except ZeroDivisionError as e:
     logger.error('tests',exc_info=1)
-
-logger.info('end')
+finally:
+    logger.info('end')
