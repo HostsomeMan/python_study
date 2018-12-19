@@ -22,5 +22,6 @@ class webrequests(unittest.TestCase):
             return status_code, response_json  # 返回响应码，响应内容
         except BaseException as e:
             self.logger.error("请求失败！", exc_info=1)
+            # 劳资做了修改
 
 
